@@ -6,8 +6,8 @@ import logo from '../images/header_logo.svg';
 
 export default function Register({setIsInfoToolTipsOpened, setInfoStatus}) {
   const [values, setValues] = useState({
-    email: '',
     password: '',
+    email: '',
   })
 
   const navigate = useNavigate()

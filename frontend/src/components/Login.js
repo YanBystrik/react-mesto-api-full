@@ -32,8 +32,8 @@ function Login({onLogin, setEmail}) {
         if (res.token) {
           setEmail(values.email)
           setValues({
-            email: '',
             password: '',
+            email: '',
           })
           localStorage.setItem('jwt', res.token)
           onLogin()
