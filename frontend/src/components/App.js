@@ -64,14 +64,24 @@ function App() {
 
     //Хук запроса к АПИ за изначальными картинками
     React.useEffect( () => {
-        api.getCards()
-        .then(data => {
-            setCards(data)
-        })
-        .catch(err => {
-            console.error(err);
-        });
-    }, []);
+        if(loggedIn) {
+            api.getCards()
+                .then(cards => {
+                    setCards(cards.data)
+                })
+            .catch(err => {
+                console.error(err);
+            });
+
+            api.getUserInfo()
+                .then(res => {
+                    setCurrentUser(res.data);
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+        }
+    }, [loggedIn]);
 
     //Сабмит карточки нового места
     function handleAddPlaceSubmit(data){
@@ -88,7 +98,7 @@ function App() {
     //Клик по кнопке лайка
     function handleCardLike(card) {
         // Снова проверяем, есть ли уже лайк на этой карточке
-        const isLiked = card.likes.some(i => i._id === currentUser._id);
+        const isLiked = card.likes.some(i => i === currentUser._id);
         // Отправляем запрос в API и получаем обновлённые данные карточки
         isLiked 
         ? api.likeDelete(card._id).then((newCard) => {
@@ -121,10 +131,10 @@ function App() {
     }
 
     //Запрос к АПИ на обновление инфы о пользователе
-    function handleUpdateUser(data){
-        api.updateUserInfo(data)
+    function handleUpdateUser(d){
+        api.updateUserInfo(d)
         .then((res) => {
-            setCurrentUser(res);
+            setCurrentUser(res.data);
             closeAllPopups();
         })
         .catch(err => {
@@ -136,7 +146,7 @@ function App() {
     function handleUpdateAvatar(avatar){
         api.updateAvatar(avatar)
         .then(res => {
-            setCurrentUser(res);
+            setCurrentUser(res.data);
             closeAllPopups();
         })
         .catch(err => {
@@ -194,7 +204,7 @@ function App() {
     <currentUserContext.Provider value={currentUser}>
         <div className="page">
             <Routes>
-                <Route path="/"
+                <Route path='/'
                     element={
                         <ProtectedRoute loggedIn={loggedIn}>
                             <Header email={email} handleLogout={handleLogout}/>

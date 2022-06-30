@@ -6,8 +6,8 @@ import logo from '../images/header_logo.svg';
 
 export default function Register({setIsInfoToolTipsOpened, setInfoStatus}) {
   const [values, setValues] = useState({
-    password: '',
     email: '',
+    password: '',
   })
 
   const navigate = useNavigate()
@@ -24,17 +24,15 @@ export default function Register({setIsInfoToolTipsOpened, setInfoStatus}) {
     e.preventDefault();
         auth.register(values.password, values.email)
         .then(res => {
-          if (res.data){
             setInfoStatus(true);
             setIsInfoToolTipsOpened(true);
             navigate('/');
-          } else {
-            setInfoStatus(false);
-            setIsInfoToolTipsOpened(true);
-          }
         })
         .catch(err => {
           console.error(err);
+
+          setInfoStatus(false);
+          setIsInfoToolTipsOpened(true);
         })
     }
 

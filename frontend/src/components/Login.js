@@ -6,8 +6,8 @@ import * as auth from '../utils/auth.js';
 
 function Login({onLogin, setEmail}) {
   const [values, setValues] = useState({
-    email: '',
     password: '',
+    email: '',
   })
   const navigate = useNavigate()
 
@@ -29,7 +29,6 @@ function Login({onLogin, setEmail}) {
     auth
       .authorize(values.password, values.email)
       .then(res => {
-        if (res.token) {
           setEmail(values.email)
           setValues({
             password: '',
@@ -38,7 +37,6 @@ function Login({onLogin, setEmail}) {
           localStorage.setItem('jwt', res.token)
           onLogin()
           navigate('/')
-        }
       })
       .catch(err => console.log(err))
   }

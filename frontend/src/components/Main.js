@@ -37,7 +37,7 @@ function Main({
                 cards.map(card => (
                 <Card 
                     key={card._id} 
-                    card={card} 
+                    card={card}
                     onCardClick={onCardClick} 
                     onCardLike={onCardLike} 
                     onCardDelete={onCardDelete} 
